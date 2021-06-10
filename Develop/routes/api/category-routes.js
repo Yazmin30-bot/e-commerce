@@ -6,7 +6,7 @@ const { Category, Product } = require('../../models');
 router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
-  // Use Sequelize's `findAll()` method to show all the products
+  // Use Sequelize's `findAll()` method to show all the categories
   try {
     const categoryData = await Category.findAll();
       //{
@@ -23,9 +23,23 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
+  //Use Sequelize's `findByPk()` method to show specific category by id
+  try {
+    const categoryData = await Category.findByPk(req.params.id);
+      /*, {
+      include: [{ model: Product }],
+    });*/ 
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found with this id!' });
+      return;
+    }
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.post('/', (req, res) => {
