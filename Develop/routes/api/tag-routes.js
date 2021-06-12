@@ -9,7 +9,7 @@ router.get('/', async(req, res) => {
   // Use Sequelize's `findAll()` method to show all the tags
   try{
     const tagData = await Tag.findAll({
-      include: [{ model: Product},{ model: ProductTag}],
+      include: [{ model: Product, through: ProductTag, as: 'product_data'}],
       //, through: ProductTag, as: 'tag_products'
     });
     res.status(200).json(tagData);
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
   // Use Sequelize's `findByPk()` method to show the tag by id
   try{
     const tagData = await Tag.findByPk(req.params.id,{
-      include: [{ model: Product, through: ProductTag, as: 'tag_products'}],
+      include: [{ model: Product, through: ProductTag, as: 'product_data'}],
     })
     if(!tagData) {
       res.status(404).json({ message: 'No tag found with this id!' });
