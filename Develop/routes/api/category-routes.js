@@ -8,11 +8,11 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   // Use Sequelize's `findAll()` method to show all the categories
   try {
-    const categoryData = await Category.findAll();
-      //{
-      //include: [{ model: Product }],
+    const categoryData = await Category.findAll(
+      {
+      include: [{ model: Product }],
       //, attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
-    //});
+    });
     if (!categoryData) {
       res.status(404).json({ message: 'No categories found!' });
       return;
@@ -28,10 +28,9 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   //Use Sequelize's `findByPk()` method to show specific category by id
   try {
-    const categoryData = await Category.findByPk(req.params.id);
-      /*, {
+    const categoryData = await Category.findByPk(req.params.id, {
       include: [{ model: Product }],
-    });*/ 
+    });
     if (!categoryData) {
       res.status(404).json({ message: 'No category found with this id!' });
       return;

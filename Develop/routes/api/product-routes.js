@@ -9,10 +9,14 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Category and Tag data
   // Use Sequelize's `findAll()` method to show all the products
   try{
-    const productData = await Product.findAll();
-    /*   {
-      include: [{ model: Category }, { model: Tag }],
-    }); */
+    const productData = await Product.findAll({
+      include: [
+        Category,
+         { model: Tag,
+        //through: ProductTag,
+       },
+      ],
+    });
     res.status(200).json(productData);
   }catch(err){
     res.status(500).json(err);
