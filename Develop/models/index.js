@@ -29,6 +29,17 @@ Product.belongsToMany(Tag,{
 });
 
 // Tags belongToMany Products (through ProductTag)
+Tag.belongsToMany(Product,{
+  through:  {
+    model: ProductTag,
+    unique: true
+  }, 
+  //ProductTag,
+  //foreignKey: 'tag_id',
+   as: 'tag_id' 
+  // Define an alias for when data is retrieved
+  /* as: 'product_tag' */
+});
 
 module.exports = {
   Product,
