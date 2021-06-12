@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
       include: [
         Category,
          { model: Tag,
-        //through: ProductTag,
+        through: ProductTag,
        },
       ],
     });
