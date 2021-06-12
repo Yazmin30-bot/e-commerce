@@ -68,8 +68,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',async (req, res) => {
   // delete on tag by its `id` value
+  //Use Sequelize's `destroy()` method to delete the tag by id
+  try{
+    const tagData = await Tag.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if(!tagData) {
+      res.status(404).json({ message: 'No tag found with this id!' });
+      return;
+    }
+    res.status(200).json(tagData);
+
+  }catch(err){
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
